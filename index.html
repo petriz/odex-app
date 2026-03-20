@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODEX — Sistema de Gestión para Clínicas Dentales</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1366FF;
+    --blue-dark: #0D4FCC;
+    --blue-light: #E8F0FF;
+    --text: #0F1923;
+    --muted: #5A6A7A;
+    --border: #E2E8F0;
+    --bg: #F8FAFC;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--blue);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+  nav ul a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue); color: #fff !important;
+    padding: 8px 20px; border-radius: 8px;
+    font-size: 0.875rem !important;
+  }
+  .nav-cta:hover { background: var(--blue-dark) !important; color: #fff !important; }
+
+  /* HERO */
+  .hero {
+    padding: 6rem 2rem 5rem;
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 4rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em { color: var(--blue); font-style: normal; }
+  .hero p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue); color: #fff;
+    padding: 13px 24px; border-radius: 10px;
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--blue);
+    border: 1.5px solid var(--blue);
+    padding: 13px 24px; border-radius: 10px;
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--blue-light); }
+
+  /* PHONE MOCKUP */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+  }
+  .phone-frame {
+    width: 280px; height: 560px;
+    background: var(--text);
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 40px 80px rgba(19,102,255,0.15), 0 8px 24px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  .phone-screen {
+    background: #fff;
+    border-radius: 30px;
+    height: 100%;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .phone-status {
+    background: var(--blue);
+    padding: 10px 16px 8px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .phone-status span { color: rgba(255,255,255,0.9); font-size: 10px; font-weight: 600; }
+  .phone-header {
+    background: var(--blue);
+    padding: 12px 16px 16px;
+    color: #fff;
+  }
+  .phone-header small { font-size: 10px; opacity: 0.75; }
+  .phone-header h3 { font-size: 15px; font-weight: 600; margin-top: 2px; }
+  .phone-body { padding: 12px; flex: 1; background: var(--bg); }
+  .phone-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+  }
+  .phone-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .phone-card h4 { font-size: 11px; font-weight: 600; color: var(--text); }
+  .phone-badge {
+    font-size: 9px; font-weight: 600;
+    padding: 2px 8px; border-radius: 10px;
+    background: #E8F5E9; color: #2E7D32;
+  }
+  .phone-badge.warn { background: #FFF3E0; color: #E65100; }
+  .phone-card p { font-size: 9px; color: var(--muted); }
+  .phone-nav {
+    background: #fff;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around;
+    padding: 8px 0;
+  }
+  .phone-nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .phone-nav-item span { font-size: 8px; color: var(--muted); }
+  .phone-nav-item.active span { color: var(--blue); }
+  .nav-dot {
+    width: 20px; height: 3px; border-radius: 2px;
+    background: var(--border);
+  }
+  .nav-dot.active { background: var(--blue); }
+
+  /* FEATURES */
+  .section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.8rem; font-weight: 600;
+    color: var(--blue); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.3px;
+  }
+  .section > .section-inner > p {
+    color: var(--muted); font-size: 1rem;
+    max-width: 560px; margin-bottom: 3rem;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { box-shadow: 0 8px 30px rgba(19,102,255,0.08); transform: translateY(-2px); }
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--blue-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 20px;
+  }
+  .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+  .feature-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* PRICING */
+  .pricing-section { background: var(--bg); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 700px;
+  }
+  .pricing-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+  }
+  .pricing-card.featured {
+    border-color: var(--blue);
+    box-shadow: 0 4px 20px rgba(19,102,255,0.12);
+  }
+  .pricing-popular {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--blue); color: #fff;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 4px 16px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .pricing-card h3 { font-size: 1rem; font-weight: 600; color: var(--muted); margin-bottom: 1rem; }
+  .price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 0.25rem; }
+  .price strong { font-size: 2.5rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .price span { color: var(--muted); font-size: 0.85rem; }
+  .price-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .price-features { list-style: none; margin-bottom: 1.5rem; }
+  .price-features li {
+    font-size: 0.875rem; color: var(--muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .price-features li:last-child { border-bottom: none; }
+  .check { color: var(--blue); font-weight: 700; }
+
+  /* CONTACT */
+  .contact-section { background: var(--blue); }
+  .contact-section .section-tag { color: rgba(255,255,255,0.7); }
+  .contact-section h2 { color: #fff; }
+  .contact-section p { color: rgba(255,255,255,0.8); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .contact-item {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    padding: 1.5rem;
+  }
+  .contact-item h4 { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .contact-item p { color: rgba(255,255,255,0.75); font-size: 0.875rem; }
+  .contact-item a { color: rgba(255,255,255,0.9); text-decoration: none; }
+  .contact-item a:hover { color: #fff; text-decoration: underline; }
+
+  /* PRIVACY */
+  .privacy-section { background: var(--bg); }
+  .privacy-content {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 800px;
+  }
+  .privacy-content h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.5rem; }
+  .privacy-content h3:first-child { margin-top: 0; }
+  .privacy-content p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 0.5rem; }
+  .privacy-content ul { padding-left: 1.25rem; }
+  .privacy-content ul li { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.25rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--text);
+    padding: 2rem;
+    text-align: center;
+  }
+  footer p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+    .hero-actions { justify-content: center; }
+    .hero-visual { order: -1; }
+    .phone-frame { width: 220px; height: 440px; }
+    nav ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">ODEX<span>.</span></a>
+  <ul>
+    <li><a href="#caracteristicas">Características</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#privacidad">Privacidad</a></li>
+    <li><a href="#contacto" class="nav-cta">Descargar</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section style="overflow: hidden;">
+  <div class="hero">
+    <div>
+      <div class="hero-badge">📱 Disponible en Android</div>
+      <h1>Gestiona tu clínica dental de forma <em>inteligente</em></h1>
+      <p>ODEX es el sistema de administración y expediente clínico diseñado para consultorios y clínicas dentales. Expedientes, citas, pagos y más — todo en tu celular.</p>
+      <div class="hero-actions">
+        <a href="https://play.google.com/store/apps/details?id=com.odex.mobile" class="btn-primary">
+          ▶ Google Play
+        </a>
+        <a href="#caracteristicas" class="btn-secondary">Ver características</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-status">
+            <span>9:41</span>
+            <span>●●● 100%</span>
+          </div>
+          <div class="phone-header">
+            <small>Bienvenido, Dr. Petriz</small>
+            <h3>Agenda de hoy — 5 citas</h3>
+          </div>
+          <div class="phone-body">
+            <div class="phone-card">
+              <div class="phone-card-header">
+                <h4>Ana García López</h4>
+                <span class="phone-badge">Confirmada</span>
+              </div>
+              <p>10:00 AM · Limpieza dental · Tratamiento #3</p>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-header">
+                <h4>Carlos Mendoza</h4>
+                <span class="phone-badge warn">Pendiente</span>
+              </div>
+              <p>11:30 AM · Extracción · Molar superior</p>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-header">
+                <h4>María Torres</h4>
+                <span class="phone-badge">Confirmada</span>
+              </div>
+              <p>2:00 PM · Ortodoncia · Control mensual</p>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item active">
+              <div class="nav-dot active"></div>
+              <span>Agenda</span>
+            </div>
+            <div class="phone-nav-item">
+              <div class="nav-dot"></div>
+              <span>Pacientes</span>
+            </div>
+            <div class="phone-nav-item">
+              <div class="nav-dot"></div>
+              <span>Pagos</span>
+            </div>
+            <div class="phone-nav-item">
+              <div class="nav-dot"></div>
+              <span>Reportes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="caracteristicas">
+  <div class="section-inner">
+    <div class="section-tag">Características</div>
+    <h2>Todo lo que necesita tu consultorio</h2>
+    <p>Diseñado por y para profesionales de la odontología en México.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🦷</div>
+        <h3>Odontograma digital</h3>
+        <p>Diagrama dental interactivo para registrar tratamientos, diagnósticos y procedimientos por diente.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Agenda inteligente</h3>
+        <p>Gestiona citas con detección de conflictos, recordatorios automáticos y vista semanal.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Expedientes clínicos</h3>
+        <p>Historial completo de cada paciente: tratamientos, notas, radiografías y documentos adjuntos.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💳</div>
+        <h3>Cobros y pagos</h3>
+        <p>Registra pagos, genera recibos, controla saldos pendientes y exporta reportes financieros.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧪</div>
+        <h3>Órdenes de laboratorio</h3>
+        <p>Envía y rastrea órdenes al laboratorio dental con seguimiento de estado y fechas de entrega.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Estadísticas y reportes</h3>
+        <p>Visualiza el rendimiento de tu clínica con gráficas de ingresos, pacientes y tratamientos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing-section" id="precios">
+  <div class="section-inner">
+    <div class="section-tag">Precios</div>
+    <h2>Simple y transparente</h2>
+    <p>Sin contratos, sin sorpresas. Cancela cuando quieras.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Mensual</h3>
+        <div class="price">
+          <strong>$149</strong>
+          <span>MXN / mes</span>
+        </div>
+        <p class="price-note">Facturado mensualmente</p>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Pacientes ilimitados</li>
+          <li><span class="check">✓</span> Expedientes clínicos</li>
+          <li><span class="check">✓</span> Agenda y citas</span></li>
+          <li><span class="check">✓</span> Soporte técnico</li>
+        </ul>
+        <a href="https://play.google.com/store/apps/details?id=com.odex.mobile" class="btn-secondary" style="width: 100%; justify-content: center;">Comenzar</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-popular">⭐ Más popular</div>
+        <h3>Anual</h3>
+        <div class="price">
+          <strong>$1,299</strong>
+          <span>MXN / año</span>
+        </div>
+        <p class="price-note">Equivale a $108/mes — ahorra 27%</p>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Todo lo del plan mensual</li>
+          <li><span class="check">✓</span> 2 meses gratis</li>
+          <li><span class="check">✓</span> Soporte prioritario</li>
+          <li><span class="check">✓</span> Acceso a nuevas funciones</li>
+        </ul>
+        <a href="https://play.google.com/store/apps/details?id=com.odex.mobile" class="btn-primary" style="width: 100%; justify-content: center;">Comenzar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contacto">
+  <div class="section-inner">
+    <div class="section-tag">Contacto</div>
+    <h2>¿Tienes preguntas?</h2>
+    <p>Estamos aquí para ayudarte. Contáctanos por cualquiera de estos medios.</p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <h4>📧 Correo electrónico</h4>
+        <p><a href="mailto:mpl3234@gmail.com">mpl3234@gmail.com</a></p>
+      </div>
+      <div class="contact-item">
+        <h4>📍 Ubicación</h4>
+        <p>Culiacán, Sinaloa, México</p>
+      </div>
+      <div class="contact-item">
+        <h4>👨‍💻 Desarrollador</h4>
+        <p>Michel Petriz Lopez<br>RFC: PELM9210091N9</p>
+      </div>
+      <div class="contact-item">
+        <h4>📱 Soporte técnico</h4>
+        <p>Disponible de Lunes a Viernes<br>9:00 AM – 6:00 PM (CST)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="section privacy-section" id="privacidad">
+  <div class="section-inner">
+    <div class="section-tag">Legal</div>
+    <h2>Política de privacidad</h2>
+    <p style="margin-bottom: 2rem;">Última actualización: 18 de marzo de 2026</p>
+    <div class="privacy-content">
+      <h3>1. Información que recopilamos</h3>
+      <p>ODEX recopila únicamente la información necesaria para el funcionamiento de la aplicación:</p>
+      <ul>
+        <li>Datos de pacientes ingresados manualmente por el usuario (nombre, fecha de nacimiento, contacto)</li>
+        <li>Información clínica registrada por el profesional dental (tratamientos, notas, citas)</li>
+        <li>Datos de uso de la aplicación para mejorar el servicio</li>
+      </ul>
+
+      <h3>2. Uso de la información</h3>
+      <p>La información recopilada se utiliza exclusivamente para:</p>
+      <ul>
+        <li>Proveer las funcionalidades del sistema de gestión clínica</li>
+        <li>Mejorar la experiencia del usuario</li>
+        <li>Brindar soporte técnico cuando sea solicitado</li>
+      </ul>
+
+      <h3>3. Almacenamiento de datos</h3>
+      <p>Los datos clínicos se almacenan localmente en el dispositivo del usuario mediante una base de datos SQLite segura. No se transmiten datos de pacientes a servidores externos sin consentimiento explícito.</p>
+
+      <h3>4. Compartición de datos</h3>
+      <p>No vendemos, intercambiamos ni transferimos información personal a terceros. Los datos de pacientes son estrictamente confidenciales y no se comparten con ninguna entidad externa.</p>
+
+      <h3>5. Seguridad</h3>
+      <p>Implementamos medidas de seguridad técnicas y organizativas para proteger la información almacenada en la aplicación, incluyendo autenticación por contraseña y cifrado de datos sensibles.</p>
+
+      <h3>6. Derechos del usuario</h3>
+      <p>El usuario tiene derecho a acceder, rectificar y eliminar toda la información almacenada en la aplicación. Para ejercer estos derechos, contacte a: <a href="mailto:mpl3234@gmail.com">mpl3234@gmail.com</a></p>
+
+      <h3>7. Cambios a esta política</h3>
+      <p>Nos reservamos el derecho de actualizar esta política de privacidad. Los cambios se notificarán a través de la aplicación o mediante correo electrónico.</p>
+
+      <h3>8. Contacto</h3>
+      <p>Para preguntas sobre esta política de privacidad: <a href="mailto:mpl3234@gmail.com">mpl3234@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 ODEX — Michel Petriz Lopez · RFC: PELM9210091N9 · Culiacán, Sinaloa, México</p>
+  <p style="margin-top: 0.5rem;"><a href="#privacidad">Política de privacidad</a> · <a href="mailto:mpl3234@gmail.com">Contacto</a></p>
+</footer>
+
+</body>
+</html>
