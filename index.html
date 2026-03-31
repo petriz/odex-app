@@ -4,242 +4,122 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ODEX — Gestión Dental Inteligente</title>
-  <meta name="description" content="Software de gestión para clínicas dentales. Pacientes, agenda, odontograma, PDFs, WhatsApp y respaldo en la nube.">
-  <link rel="icon" href="logo.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="ODEX es el software de gestión dental todo-en-uno para consultorios y clínicas. Pacientes, citas, pagos, odontograma y más.">
   <style>
-    :root {
-      --blue: #1366FF;
-      --blue-dark: #0D4DB8;
-      --blue-light: #EDF3FF;
-      --dark: #0F172A;
-      --gray: #64748B;
-      --light: #F8FAFC;
-      --white: #FFFFFF;
-      --green: #10B981;
-      --radius: 16px;
-    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
-    
-    /* ═══ Nav ═══ */
-    nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.06); }
-    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 36px; height: 36px; border-radius: 10px; }
-    .nav-logo span { font-weight: 800; font-size: 20px; color: var(--blue); letter-spacing: 1px; }
-    .nav-links { display: flex; gap: 24px; align-items: center; }
-    .nav-links a { text-decoration: none; color: var(--gray); font-weight: 500; font-size: 14px; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--blue); }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 10px; font-weight: 700; font-size: 14px; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; }
-    .btn-primary { background: var(--blue); color: white; }
-    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(19,102,255,0.3); }
-    .btn-outline { border: 2px solid var(--blue); color: var(--blue); background: transparent; }
-    .btn-outline:hover { background: var(--blue-light); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #fafbfc; }
+    .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 80px 24px; text-align: center; }
+    .hero h1 { font-size: 48px; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
+    .hero h1 span { color: #60a5fa; }
+    .hero p { font-size: 20px; opacity: 0.8; max-width: 500px; margin: 0 auto 32px; line-height: 1.5; }
+    .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 10px; color: white; text-decoration: none; font-weight: 600; font-size: 14px; transition: background 0.2s; }
+    .badge:hover { background: rgba(255,255,255,0.2); }
+    .badge svg { width: 20px; height: 20px; fill: currentColor; }
 
-    /* ═══ Hero ═══ */
-    .hero { padding: 140px 24px 80px; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(19,102,255,0.08) 0%, transparent 70%); z-index: 0; }
-    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
-    .hero-badge { display: inline-block; padding: 6px 16px; background: var(--blue-light); color: var(--blue); font-weight: 700; font-size: 13px; border-radius: 20px; margin-bottom: 20px; }
-    .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1; margin-bottom: 18px; letter-spacing: -1px; }
-    .hero h1 .accent { color: var(--blue); }
-    .hero p { font-size: 18px; color: var(--gray); line-height: 1.6; margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; }
-    .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .hero-img { margin-top: 60px; position: relative; z-index: 1; }
-    .hero-img img { width: 100%; max-width: 900px; border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+    .features { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+    .features h2 { text-align: center; font-size: 28px; font-weight: 800; margin-bottom: 40px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 24px; }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px; }
+    .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .card p { font-size: 14px; color: #666; line-height: 1.5; }
 
-    /* ═══ Features ═══ */
-    .features { padding: 80px 24px; background: var(--light); }
-    .section-title { text-align: center; margin-bottom: 50px; }
-    .section-title h2 { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
-    .section-title p { color: var(--gray); font-size: 16px; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .feature-card { background: white; padding: 28px; border-radius: var(--radius); border: 1px solid rgba(0,0,0,0.06); transition: all 0.3s; }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
-    .feature-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
-    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+    .pricing { background: #f0f4ff; padding: 60px 24px; text-align: center; }
+    .pricing h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+    .pricing .sub { color: #666; margin-bottom: 32px; font-size: 15px; }
+    .plans { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .plan { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 32px 28px; width: 260px; text-align: center; }
+    .plan.featured { border-color: #3b82f6; box-shadow: 0 4px 24px rgba(59,130,246,0.15); }
+    .plan h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .plan .price { font-size: 32px; font-weight: 900; color: #1a1a2e; }
+    .plan .period { font-size: 14px; color: #888; margin-bottom: 16px; }
+    .plan .save { background: #dbeafe; color: #2563eb; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 12px; }
+    .plan .trial { font-size: 13px; color: #10b981; font-weight: 600; }
 
-    /* ═══ Pricing ═══ */
-    .pricing { padding: 80px 24px; }
-    .pricing-cards { display: flex; gap: 20px; max-width: 700px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-    .price-card { flex: 1; min-width: 280px; padding: 32px; border-radius: var(--radius); border: 2px solid rgba(0,0,0,0.08); text-align: center; position: relative; transition: all 0.3s; }
-    .price-card.popular { border-color: var(--blue); background: linear-gradient(135deg, rgba(19,102,255,0.03), rgba(19,102,255,0.08)); }
-    .price-card.popular::before { content: 'MÁS POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; padding: 4px 16px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
-    .price-card h3 { font-size: 20px; margin-bottom: 8px; }
-    .price-amount { font-size: 42px; font-weight: 800; color: var(--blue); }
-    .price-amount span { font-size: 16px; color: var(--gray); font-weight: 500; }
-    .price-card ul { list-style: none; margin: 20px 0; text-align: left; }
-    .price-card li { padding: 6px 0; font-size: 14px; color: var(--gray); }
-    .price-card li::before { content: '✓'; color: var(--green); font-weight: 700; margin-right: 8px; }
-    .trial-note { text-align: center; margin-top: 24px; padding: 12px 24px; background: #ECFDF5; border-radius: 10px; display: inline-block; }
-    .trial-note span { color: #065F46; font-weight: 600; font-size: 14px; }
+    .footer { text-align: center; padding: 40px 24px; color: #888; font-size: 13px; }
+    .footer a { color: #3b82f6; text-decoration: none; }
 
-    /* ═══ CTA ═══ */
-    .cta { padding: 80px 24px; text-align: center; background: var(--dark); color: white; }
-    .cta h2 { font-size: 32px; font-weight: 800; margin-bottom: 14px; }
-    .cta p { color: rgba(255,255,255,0.6); margin-bottom: 28px; font-size: 16px; }
-    .cta .btn-primary { padding: 14px 32px; font-size: 16px; }
-
-    /* ═══ Footer ═══ */
-    footer { padding: 32px 24px; text-align: center; color: var(--gray); font-size: 13px; }
-    footer a { color: var(--blue); text-decoration: none; }
-
-    /* ═══ Mobile ═══ */
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .hero { padding: 120px 20px 60px; }
-      .pricing-cards { flex-direction: column; }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
     }
   </style>
 </head>
 <body>
-
-<!-- Nav -->
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <img src="logo.png" alt="ODEX">
-      <span>ODEX</span>
-    </a>
-    <div class="nav-links">
-      <a href="#features">Funciones</a>
-      <a href="#pricing">Precios</a>
-      <a href="#download" class="btn btn-primary">Descargar</a>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">Software Dental #1 en México</div>
-    <h1>Gestiona tu clínica dental con <span class="accent">ODEX</span></h1>
-    <p>Pacientes, agenda, odontograma, recetas, consentimientos y más. Todo en una sola app para Windows y Android.</p>
-    <div class="hero-buttons">
-      <a href="#download" class="btn btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Descargar gratis
+  <div class="hero">
+    <h1>ODEX <span>Dental</span></h1>
+    <p>Gestión dental inteligente para consultorios y clínicas. Todo en una sola app.</p>
+    <div class="badges">
+      <a href="https://apps.microsoft.com/detail/9PJ467GQPCXC" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M3 3h8.5v8.5H3V3zm9.5 0H21v8.5h-8.5V3zM3 12.5h8.5V21H3v-8.5zm9.5 0H21V21h-8.5v-8.5z"/></svg>
+        Microsoft Store
       </a>
-      <a href="#features" class="btn btn-outline">Ver funciones</a>
+      <a href="#" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M17.523 2H6.477L2 6.477v11.046L6.477 22h11.046L22 17.523V6.477L17.523 2zM12 17.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1-4h-2V7h2v6.5z"/></svg>
+        Google Play (próximamente)
+      </a>
     </div>
   </div>
-</section>
 
-<!-- Features -->
-<section class="features" id="features">
-  <div class="section-title">
-    <h2>Todo lo que necesitas</h2>
-    <p>Herramientas diseñadas para dentistas, por desarrolladores que entienden tu consulta.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#EFF6FF">👥</div>
-      <h3>Pacientes</h3>
-      <p>Expediente clínico completo conforme a la NOM-004-SSA3. Historial médico, alergias, antecedentes.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FDF4">📅</div>
-      <h3>Agenda</h3>
-      <p>Calendario semanal y mensual con vista de citas. Detección de conflictos de horario automática.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FEF3C7">🦷</div>
-      <h3>Odontograma</h3>
-      <p>Registro visual de condiciones dentales. Dentición adulta, infantil y mixta con notación FDI.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FFF7ED">📄</div>
-      <h3>PDFs profesionales</h3>
-      <p>Recetas médicas, consentimientos informados y expediente clínico exportables con tu logo.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0F9FF">💬</div>
-      <h3>WhatsApp</h3>
-      <p>Envía recordatorios y confirmaciones de cita directo al WhatsApp del paciente con un toque.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#EDE9FE">☁️</div>
-      <h3>Respaldo en la nube</h3>
-      <p>Sincroniza tus datos entre Windows y Android con Google Drive. Nunca pierdas información.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FDF2F8">🔬</div>
-      <h3>Laboratorio</h3>
-      <p>Órdenes de laboratorio con seguimiento. Selector de restauraciones, materiales y colores VITA.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#ECFDF5">💳</div>
-      <h3>Pagos y reportes</h3>
-      <p>Control de pagos y abonos por paciente. Reportes de ingresos y estadísticas de tu clínica.</p>
+  <div class="features">
+    <h2>Todo lo que tu consultorio necesita</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon" style="background:#eff6ff;">👥</div>
+        <h3>Gestión de pacientes</h3>
+        <p>Expediente clínico digital, historial médico, alergias y datos de contacto.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f0fdf4;">📅</div>
+        <h3>Agenda inteligente</h3>
+        <p>Vista semanal y mensual. Recordatorios por WhatsApp. Google Calendar sync.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fef3c7;">🦷</div>
+        <h3>Odontograma</h3>
+        <p>Registro por diente y cara dental. Modo adulto, infantil y mixto.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fce7f3;">💰</div>
+        <h3>Pagos y adeudos</h3>
+        <p>Control de pagos, abonos y adeudos por paciente. Múltiples métodos de pago.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#ede9fe;">📋</div>
+        <h3>Recetas y consentimientos</h3>
+        <p>Genera recetas y consentimientos con firma digital. Exporta a PDF.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#ecfdf5;">☁️</div>
+        <h3>Respaldo en la nube</h3>
+        <p>Respaldo automático en Google Drive. Tus datos siempre seguros.</p>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- Pricing -->
-<section class="pricing" id="pricing">
-  <div class="section-title">
-    <h2>Precios simples</h2>
-    <p>Sin sorpresas. Cancela cuando quieras.</p>
-  </div>
-  <div class="pricing-cards">
-    <div class="price-card">
-      <h3>Mensual</h3>
-      <div class="price-amount">$149<span>/mes</span></div>
-      <ul>
-        <li>Pacientes ilimitados</li>
-        <li>Agenda completa</li>
-        <li>PDFs con tu logo</li>
-        <li>WhatsApp integrado</li>
-        <li>Respaldo Google Drive</li>
-      </ul>
-      <a href="https://pay.rev.cat/rsynsmuxhjprdflc/" class="btn btn-outline" style="width:100%;justify-content:center">Comenzar prueba gratis</a>
-    </div>
-    <div class="price-card popular">
-      <h3>Anual</h3>
-      <div class="price-amount">$1,490<span>/año</span></div>
-      <p style="color:var(--green);font-weight:600;font-size:14px;margin-top:4px">Ahorra 2 meses — $124/mes</p>
-      <ul>
-        <li>Todo del plan mensual</li>
-        <li>Soporte prioritario</li>
-        <li>Actualizaciones incluidas</li>
-        <li>Windows + Android</li>
-        <li>Precio fijo garantizado</li>
-      </ul>
-      <a href="https://pay.rev.cat/rsynsmuxhjprdflc/" class="btn btn-primary" style="width:100%;justify-content:center">Comenzar prueba gratis</a>
+  <div class="pricing">
+    <h2>ODEX Pro</h2>
+    <p class="sub">Prueba gratis por 30 días. Cancela cuando quieras.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Mensual</h3>
+        <div class="price">$149</div>
+        <div class="period">MXN / mes</div>
+        <div class="trial">30 días gratis</div>
+      </div>
+      <div class="plan featured">
+        <div class="save">Ahorra 2 meses</div>
+        <h3>Anual</h3>
+        <div class="price">$1,490</div>
+        <div class="period">MXN / año</div>
+        <div class="trial">30 días gratis</div>
+      </div>
     </div>
   </div>
-  <div style="text-align:center;margin-top:20px">
-    <div class="trial-note"><span>✅ 30 días gratis. Sin tarjeta de crédito para empezar.</span></div>
+
+  <div class="footer">
+    <p>ODEX Dental &copy; 2026 &middot; <a href="/odex-app/privacy">Política de Privacidad</a> &middot; <a href="mailto:mpl3234@gmail.com">Contacto</a></p>
   </div>
-</section>
-
-<!-- Download -->
-<section class="cta" id="download">
-  <h2>Descarga ODEX hoy</h2>
-  <p>Disponible para Windows y Android. Prueba gratis por 30 días.</p>
-  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-    <a href="https://github.com/petriz/odex-flutter/releases" class="btn btn-primary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      Windows
-    </a>
-    <a href="https://play.google.com/store/apps/details?id=com.odex.mobile" class="btn btn-primary" style="background:var(--green)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-      Android
-    </a>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer>
-  <p>© 2026 ODEX Dental — Culiacán, Sinaloa, México</p>
-  <p style="margin-top:6px">
-    <a href="mailto:mpl3234@gmail.com">Soporte</a> · 
-    <a href="https://instagram.com/odex.app">Instagram</a> · 
-    <a href="https://github.com/petriz/odex-flutter">GitHub</a>
-  </p>
-</footer>
-
 </body>
 </html>
